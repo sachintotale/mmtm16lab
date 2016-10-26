@@ -1,0 +1,135 @@
+== Introduction
+
+Welcome to the lab session on the LEAP platform APIs.
+  We'll touch upon the functionality of the application we're going to tweak and highlight the technology used.
+
+=== Application
+The application we have with us deals with a loan application use case. Loan applicants can upload a loan document
+entering details about the loan and send it for approval. A loan officer can then log into the system and review the
+loan created and choose to approve the document providing comments for the same. Once the document is approved it is
+then read-only meaning the users cannot edit the document thereon.
+
+Users log into the system using the log in button.
+
+image::screenshots/login.png[]
+
+Once logged in, the user sees his profile page.
+This profile page displays the user's information including the roles he has in the system.
+
+image::screenshots/profile.png[]
+
+The 'Documents' option in the side navigation panel allows the user to navigate to the main functionality panel.
+The user is provided with options to view loan documents in the system (Loans) or browse the repository (Home)
+
+image::screenshots/loans.png[]
+
+The user can click on the 'Home' option to display folders in the system under the root directory of the system
+A user with the role of 'loan applicant' (Bob and Sue) can then right-click on a listed folder to see options to 'Create Loan Content'
+
+The user is then provided a dialog to import a loan document (blob service)
+and provide required loan content info (a trait in the system that is attached to the loan content file)
+
+image::screenshots/createLoan.png[]
+
+
+Once a user with the role of a 'loan officer' (Joe) logs into the application
+and navigates to 'Documents' using the navigation panel,
+the user is presented with the loans created by other loan applicants.
+Context menu options are provided to 'Edit' (review) the loan application.
+Once approved by the loan officer (loan review status trait applied and related info provided)
+the loan is applied made read-only by the system (a permission set is applied on the loan).
+
+image::screenshots/loanApproval.png[]
+
+
+=== Virtual Machine
+
+The Virtual that we host will contain all necessary to buid the application
+
+This includes the following:
+
+* LEAP CMS running
+** Can be run by executing the run.bat file located at C:\mmtm\cms_informed_2
+* The web application that will be the base for the lab session consisting of the following technologies
+** Node.js
+** npm
+** webpack
+** AngularJs
+* Sublime and Brackets editors
+* This documentation
+* POSTMAN REST Api client
+* Chrome browser
+
+
+=== Application structure
+
+The web application built is an AngularJS 1.x application using ES6 constructs.
+Babel is used to transpile and webpack is used to bundle.
+
+==== Directory layout
+    ├── build                               # build stats
+    ├── public                              # public folder (webroot)
+    │   ├── _assets                         # build results - assets packed by webpack
+    │   └── index.html                      # app entry point
+    └── src                                 # app sources
+        ├── blocks                          # generic helpers
+        │   ├── exception                   # exception handler
+        │   ├── logger                      # logger
+        │   └── router                      # router helper
+        ├── core                            # application core module
+        │   ├── auth                        # core.auth module, contains all authentication / authorization related stuff
+        │   ├── interceptors                # core.interceptors module, contains core interceptors
+        │   ├── services                    # core.services module, contains core services
+        │   ├── 404.html                    # not found page template
+        │   ├── core.config.js              # core module configuration
+        │   ├── core.module.js              # core module initialize
+        │   └── core.routes.js              # core route definitions
+        ├── dependencies                    # application dependencies module
+        │   ├── dependencies.config.js      # module configuration, configured 3rd party libraries here
+        │   └── dependencies.module.js      # module initialize, specified 3rd party libraries here
+        ├── layout                          # layout module for application
+        │   ├── footer                      # footer module
+        │   ├── header                      # header module
+        │   └── sidenav                     # sidenav module
+        ├── modules                         # Application modules, this is where our functional modules reside
+        │   ├── about                       # about module
+        │   ├── content                     # content listing module
+        │   ├── contentEdit                 # content edit module
+        │   └── contentView                 # content view module
+        ├── services                        # Application services
+        │   ├── content.service.js          # content data fetch layer
+        │   ├── object.service.js           # object data fetch layer
+        │   └── folders.service.js          # folders data fetch layer
+        ├── app.config.js                   # configuration for application, contains API URL and VERSION information
+        ├── index.js                        # app entry module
+        └── index.scss                      # entry point for application SCSS rules
+
+==== Angular specific conventions followed
+
+Application organisation rules:
+
+1. Split app into angular "modules"
+ * every module has its own folder, and is defined in one file which will require all module components and will export module name
+3. Every file should have only one entity inside it, for example if there is directive which has controller and template - there should be three files, plus likely two for unit tests
+4. Grouped related resources by folders
+5. Named files with suffixes `.directive`, `.controller`, `.component`, `.factory`, `.service`, `.provider`, etc.
+
+=== Running the application
+The application can be run by executing the following commands
+
+1. Run CMS
+ * executing the run.bat file located at C:\mmtm\cms_informed_2
+2. Run web application
+ * Execute the following command at the console from the location C:\mmtm\mmtm-client
+ to run the build and watch for changes
+ ** npm run build
+ * Execute the following command at the console from the location C:\mmtm\mmtm-client
+ to run the nodejs server that hosts the application (and also reload when changes occur - nodemon)
+ ** nodemon app.js
+
+=== Approach to session assigments
+Since this is a lab session to showcase the LEAP APIs, the views are ready for you. The assignments are geared towards
+implementing the service layer from the controllers. In case you have not been able to complete a particular round of
+coding you can catch up with the alternate implementations that are provided in the *.service.ex.js files.
+
+

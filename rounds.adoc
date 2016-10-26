@@ -1,0 +1,12 @@
+:ext-relative: adoc
+== Assignments
+
+* Assignment 1  : link:getRootFolder.{ext-relative}[Get Root Folder]
+* Assignment 2  : link:rootFolderContents.{ext-relative}[Folder Contents]
+* Assignment 3  : link:uploadLoanFile.{ext-relative}[Upload loan file]
+* Assignment 4  : link:applyingLoanTrait.{ext-relative}[Applying loan acl]
+* Assignment 5  : link:createLoanContent.{ext-relative}[Create loan content]
+* Assignment 6  : link:gettingLoans.{ext-relative}[Get loans]
+* Assignment 7  : link:getPermissionAcl.{ext-relative}[Get 'Loan approved' Permission]
+* Assignment 8  : link:getUserPermissionForDoc.{ext-relative}[Get User permission for document]
+* Assignment 9  : link:saveReviewedLoan.{ext-relative}[Save reviewed loan]

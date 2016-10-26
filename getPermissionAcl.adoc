@@ -1,0 +1,27 @@
+== Assignment 7
+
+Get the permission resource for the permission named 'loanApproved'
+In this assignment we perform the REST request for getting a permission resource by name.
+This will be used in Assignment 9 when a loan officer approves the loan document,
+
+=== Service
+==== Assignment:
+The following function is to be used to get a permission resource by name and return the response item. Right now it returns empty.
+Details of the required implementation are in the function comments
+
+Location: `src/services/object.service.js`
+[source,javascript]
+    /**
+     * TODO Assignment
+     * For the given acl name get the corresponding permissions resource
+     *     using the name as a paramter when requesting for permissions in the system
+     *
+     * Use the /permissions REST api and query by name
+     *      ?name=xxx
+     * Return the resource as promised
+     * @param aclname
+     * @returns {*|Promise.<TResult>}
+     */
+    fetchPermission(aclname: string) {
+      return this.$q.resolve({});
+    }

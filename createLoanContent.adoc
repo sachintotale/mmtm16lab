@@ -1,0 +1,120 @@
+== Assignment 5
+
+Create Loan Content
+
+In this assignment, we're going to create a file type in CMS with the blob created from assignment 3
+as a rendition attached and also applying the 'loanApplication' acl as well as the 'loan' trait info.
+Assignment 3 helped to upload the file and get a reference to it. This exercise will allow to complete the
+loan content creation from the import dialog.
+
+=== View
+In the application, the dialog to create loan content is shown when the logged in user clicks on the context menu option
+for 'Create Loan Content' displayed on right-click of a folder
+The user can select a file to upload and then click the finish button to upload the file and save the content.
+
+View input fields regards to trait are bound to the loanTrait object in the controller which stores all the loan trait info
+like the `vm.loanTrait.loanAmount` (`vm` being an alias for the controller) for the loan amount input field below+
+`src/modules/import/import.html`
+[source,html]
+    <md-input-container flex>
+        <label>Loan amount:</label>
+        <input ng-model="vm.loanTrait.loanAmount" required>
+    </md-input-container>
+    ...
+    <md-button class="md-primary" ng-disabled="contentForm.$invalid || loanForm.$invalid" ng-click="vm.saveContent()">
+        Save
+    </md-button>
+
+
+image::screenshots/createLoan.png[]
+
+=== Controller
+`src/modules/import/import.controller.js` +
+In the import controller we initialize a `newContent` file object, create a `loanTrait` object which is bound to
+the input fields in the view. +
+We apply the trait object to the `newContent` when the save operation is invoked.
+After we have uploaded the file to the blob service we update the info on the `newContent` object before calling the
+folderService to add the `newContent` item to the parent folder on which the import dialog was invoked.
+
+[source,javascript]
+    this.newContent = {
+        name : '',
+        description : '',
+        type: 'file',
+        acl: 'xxxxxxxxxxx',
+        "versionLabel": [
+            "INITIAL"
+        ],
+        "traits": {},
+        "renditions": []
+    };
+    this.loanTrait = {};
+
+
+[source,javascript]
+    applyLoanTraitToContent() {
+        this.newContent.traits.loan = {
+            "loantrait" : this.loanTrait
+        }
+    }
+
+[source,javascript]
+    saveContent() {
+        if (this.contentFiles) {
+            this.applyLoanTraitToContent();
+            ...
+            this.contentService.uploadFile(this.contentFiles)
+                .then((items) => {
+                    if (Array.isArray(items) && items.length == 1) {
+                        var blobContent = items[0];
+                        this.updateNewContentWithBlobInfo(blobContent);
+                        this.folderService.addItem(this.folder, this.newContent).then((item) => {
+                            this.dialog.hide(true, item);
+                        })
+                    }
+                })
+                ...
+        }
+    }
+
+[source,javascript]
+    updateNewContentWithBlobInfo(blobContent) {
+        this.newContent.renditions.push({
+            "name": this.versionDescription,
+            "mimeType": blobContent.content.properties.contentType, //like "application/pdf" : take this from blob response
+            "contentSize": blobContent.content.properties.size,   // like 49685: content size coming from the previous blob response
+            "blobId": blobContent.id,  // comes from the previous blob response of upload and the field "uri"
+            "renditionType": this.renditionType
+        });
+    }
+
+[source,javascript]
+    applyLoanTraitToContent() {
+        this.newContent.traits.loan = {
+            "loantrait" : this.loanTrait
+        }
+    }
+
+
+
+=== Service
+==== Assignment:
+The following function is to add an item to a folder and return the response item. Right now it returns empty.
+Details of the required implementation are in the function comments
+
+Location: `src/services/folder.service.js`
+[source,javascript]
+    /**
+     * TODO Assignment : Implement this method
+     * 1. Use the POST method on the 'items' link of the folder resource
+     *      Modify the url to use the local nodejs proxy at localhost:3434
+     *      instead of directly hitting the CMS at localhost:8080
+     *      hint - use switchToProxyUrl convenience method in this class
+     * 2. Return the response data
+     * @param folder
+     * @param item
+     * @returns {*}
+     */
+    addItem(folder: Object, item: Object) {
+        return this.$q.resolve({});
+    }

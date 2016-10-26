@@ -1,0 +1,49 @@
+== Assignment 8
+
+Fetch an object's permission resource using the acl property on the object resource
+
+In this assignment we perform the REST request for getting a permission resource by id.
+This can be used in conjunction with the user's roles to decide if the user has a particular permit on the object. +
+For example, the acl can be used along with user roles from the user token to decide if the user has
+'write' permits on an object and then disable UI based on it.
+
+=== Controller
+`src/modules/contentEdit/contentEdit.controller.js` +
+In the contentEdit controller we decide if the user has edit permit on the resource in the following manner
+
+[source,javascript]
+  //retrieve acl for the current document
+  ObjectService.fetchObjectPermissionInfo(this.content).then(permission => {
+    this.documentAcl = permission;
+    var applicableDocRoles = this.documentAcl.roles.filter(role => {
+      return this.userRoles.includes(role.name);
+    });
+    var permitFound = applicableDocRoles.find(role => {
+      return role.permits && role.permits.includes('write')
+    });
+    if (permitFound) {
+      this.userCanEditDocument = true;
+    }
+  });
+
+
+=== Service
+==== Assignment:
+The following function is to be used to get a permission resource by id and return the response item. Right now it returns empty.
+Details of the required implementation are in the function comments
+
+Location: `src/services/object.service.js`
+[source,javascript]
+/**
+ * TODO Assignment
+ * For the given REST resource get the value of the acl property - this is an acl id.
+ * Get the corresponding permission REST resource for this acl
+ *
+ * Use the /permissions/:id REST api to get the permission resource for the acl property on the object
+ * Return the same as response data promised
+ * @param object
+ * @returns {*|Promise.<TResult>}
+ */
+fetchObjectPermissionInfo(object: Object) {
+    return this.$q.resolve({});
+}

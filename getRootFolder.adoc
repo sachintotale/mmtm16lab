@@ -1,0 +1,51 @@
+== Assignment 1
+
+In this assignment, we're going to get the root folder resource.
+This is the top level folder which is created by default in the system.
+
+=== View
+In the application, this folder resource is fetched when the logged in user navigates to the 'Documents' View
+
+Once fetched, the presence of the folder resource is used to activate the 'Go' button in the card for 'Home'
+(`ng-disabled="!vm.rootFolder"`)
+
+`src/modules/content/content.html`
+[source,html]
+<md-button ng-disabled="!vm.rootFolder" ng-click="vm.showHomeFolder()">Go</md-button>
+
+image::screenshots/home.png[]
+
+=== Controller
+`src/modules/content/content.controller.js` +
+In the content controller we load the folder resource in the following manner
+
+[source,javascript]
+  constructor($window, FolderService, ContentService, ...) {
+    ...
+    this.folderService.fetchRootFolder().then( (items) => {
+      if (Array.isArray(items) && items.length == 1) {
+        this.rootFolder = items[0];
+      }
+    })
+
+=== Service
+==== Assignment:
+The following function is to fetch and return the result of the data fetch operation to retrieve the root folder.
+Right now it returns empty.
+Details of the required implementation are in the function comments as seen below
+
+Location: `src/services/folder.service.js`
+[source,javascript]
+    /**
+     * TODO Assignment: Implement this method
+     * Get the folder resource which has no parentFolder - parentFolder is null
+     *     using a filter when requesting for folders in the system
+     *
+     * Use the /folders REST api and apply a filter by parentFolder is null
+     *      ?filter=parentFolder is null
+     * Return the response item list - data._embedded.itemResourceList - as the result promised
+     * @returns {*|Promise.<TResult>}
+     */
+    fetchRootFolder() {
+        return this.$q.resolve([]);
+    }

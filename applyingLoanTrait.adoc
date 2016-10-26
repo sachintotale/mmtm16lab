@@ -1,0 +1,50 @@
+== Assignment 4
+
+Get the loan application acl - to be used later when creating the loan content.
+
+Get the acl by name 'loanApplication'.
+Modify the js code to get the permission resource using the loan name as a parameter
+like so /permissions/?name=loanApplication +
+and use the id from this instead of the hardcoded acl when defining `newContent`
+
+== Controller
+`src/modules/import/import.controller.js` +
+In the import controller there is a hard-coded value for the ack is as shown in the code below.
+The exercise is to update this acl id as fetched from the permissions resource.
+
+[source,javascript]
+this.newContent = {
+    name : '',
+    description : '',
+    type: 'file',
+    acl: 'xxxxxxxxx', //Fix this
+    "versionLabel": [
+        "INITIAL"
+    ],
+    "traits": {},
+    "renditions": []
+};
+
+
+=== Resolution
+The objectService.fetchPermission method can be used to fetch the same.
+Modify the constructor to get the ObjectService injected.
+Use the same to fetch the permission info and set it on the newContent
+
+[source,javascript]
+    constructor (folder, ContentService, FolderService, ObjectService, $mdDialog){
+        this.folder = folder;
+        this.contentService = ContentService;
+        this.folderService = FolderService;
+        this.objectService = ObjectService;
+        ...
+        this.renditionType = "PRIMARY";
+        //find out the acl id for applied loans
+        this.objectService.fetchPermission('loanApplication').then(aclObject => {
+                if (aclObject) {
+                    this.loanApplicationAcl = aclObject;
+                    this.newContent.acl = aclObject.id;
+                }
+            }
+        );
+    }

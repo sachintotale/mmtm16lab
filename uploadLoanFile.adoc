@@ -1,0 +1,99 @@
+== Assignment 3
+
+In this assignment, we're going to upload a file to the Blob service.
+The blob service is the LEAP service that is used to store content files.
+Saving it returns a resource which contains information about the blob
+like id, content type, size and an accessible url.
+This info can then be used to attach the blob to a 'file' type in CMS
+(we'll handle that in the next assignments).
+
+=== View
+In the application, the dialog to create loan content is shows when the logged in user clicks on the context menu option
+for 'Create Loan Content' displayed on right-click of a folder.
+The user can select a file to upload and then click the finish button to upload the file and save the content.
+
+`src/modules/import/import.html`
+[source,html]
+    <input id="fileInput" type="file" class="ng-hide" onchange="angular.element(this).scope().vm.fileChanged(this)">
+    <md-input-container flex class="md-block">
+        <input type="text" ng-model="vm.fileName" disabled>
+        <div class="hint">Select your file</div>
+    </md-input-container>
+    <div>
+        <md-button id="uploadButton" class="md-fab md-mini"
+                   ng-click="vm.clickUpload()">
+            <md-icon class="material-icons">attach_file</md-icon>
+        </md-button>
+    </div>
+    ...
+    <md-button class="md-primary" ng-disabled="contentForm.$invalid || loanForm.$invalid" ng-click="vm.saveContent()">
+        Save
+    </md-button>
+
+
+image::screenshots/createLoan.png[]
+
+=== Controller
+`src/modules/import/import.controller.js` +
+In the import controller we load the folder resource in the following manner
+
+[source,javascript]
+    fileChanged (element) {
+        var files = element.files;
+        if (files[0]) {
+            this.fileName = files[0].name;
+            this.contentFiles = files;
+        }
+        ...
+    }
+
+[source,javascript]
+    saveContent() {
+        if (this.contentFiles) {
+            this.applyLoanTraitToContent();
+            ...
+            this.contentService.uploadFile(this.contentFiles)
+                .then((items) => {
+                    if (Array.isArray(items) && items.length == 1) {
+                        var blobContent = items[0];
+                        this.updateNewContentWithBlobInfo(blobContent);
+                        this.folderService.addItem(this.folder, this.newContent).then((item) => {
+                            this.dialog.hide(true, item);
+                        })
+                    }
+                })
+                .catch((error) => {
+                    //this.dialog.hide(false, []);
+                })
+                .finally(() => {
+                    //this.loading = false;
+                })
+        }
+    }
+
+
+
+
+=== Service
+==== Assignment:
+The following function is to fetch and return the result of the . Right now it returns empty.
+Details of the required implementation are in the function comments
+
+Location: `src/services/folder.service.js`
+[source,javascript]
+    /**
+     *TODO Assignment : Implement this method
+     * 1. Use the GET method on the 'items' link of the folder resource
+     * 2. Modify the url to set a filter on the owner field to the current user's email (present in the user object)
+     *      Modify the url to use the local nodejs proxy at localhost:3434
+     *      instead of directly hitting the CMS at localhost:8080
+     *      hint - use switchToProxyUrl convenience method in this class
+     * 3. Return the response data items (data._embedded.itemResourceList)
+     *
+     * @param folder
+     * @param user
+     * @returns {*}
+     */
+    fetchContent(folder: Object = {}, user: Object = {}) {
+        return this.$q.resolve([]);
+    }

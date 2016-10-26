@@ -1,0 +1,126 @@
+== Assignment 9
+
+Review and save loan Content
+
+In this assignment, we're going to save a loan content. This exercise will allow to complete the
+use case of loan content review and approval from the loan edit dialog.
+
+=== View
+In the application, the dialog to edit loan content is shown when the logged in user clicks on the context menu option
+for 'Edit Loan Content' displayed on right-click of a loan document
+If the user is a loan officer, the user can proceed to enter the fields for the loan status approval trait
+and then click the finish button to save the existing loan applying the trait. The approval will also change the acl
+to the 'loanApproved' acl retrieved in Assignment 7
+
+View input fields regards to loanStatus trait(`loanreviewstatus`) are bound to the loanStatus object in the controller
+which stores all the `loanreviewstatus` trait info
+like the `vm.loanStatus.isApproved` (`vm` being an alias for the controller) for the loan `isApproved` input field below+
+`src/modules/contentEdit/contentEdit.html`
+[source,html]
+  <md-radio-group ng-model="vm.loanStatus.isApproved" ng-required="vm.isLoanOfficer" ng-disabled="!vm.isLoanOfficer">
+    <div class="md-radio-group-label-wrapper">
+      <label class="md-radio-group-label">Is Approved:</label>
+    </div>
+    <md-radio-button ng-value="true">
+      Yes
+    </md-radio-button>
+    <md-radio-button ng-value="false">
+      No
+    </md-radio-button>
+  </md-radio-group>
+    ...
+    <md-button class="md-primary" ng-disabled="contentForm.$invalid || loanForm.$invalid || approvalForm.$invalid" ng-click="vm.saveContent()">
+      Save
+    </md-button>
+
+
+image::screenshots/loanApproval.png[]
+
+=== Controller
+`src/modules/import/import.controller.js` +
+In the content edit controller we create a `loanStatus` object which is bound to
+the input fields in the view in the 'Approval' tab. +
+We apply the trait object to the `newContent` when the save operation is invoked.
+The objectService is then used to patch the object with the new trait. Finally the objectService is used
+to update the object (using a REST PUT call) with the new acl (`loanApproved`).
+
+[source,javascript]
+    this.loanStatus = {
+      reviewer: this.userProfile.email,
+      isApproved: false,
+      remarks: ""
+    };
+
+
+[source,javascript]
+  saveContent() {
+    if(this.isLoanOfficer){
+      //Use Object service to patch object with traits
+      this.objectService.patchObject(this.content, this.getLoanStatusTraitToPatch()).then((data) => {
+        ...
+        //udpate acl
+        var content = data;
+        if (this.loanApprovalAcl) {
+          content.acl = this.loanApprovalAcl.id;
+          this.objectService.updateObjectEx(content).then(data => {
+            ...
+          })
+        }
+
+[source,javascript]
+  getLoanStatusTraitToPatch() {
+    return {
+      traits: {
+        loanreviewstatus: {
+          statustrait: this.loanStatus
+        }
+      }
+    }
+  }
+
+
+
+
+=== Service
+==== Assignment:
+The following function is to patch an object and return the response item.
+Right now it returns the same item as received.
+Details of the required implementation are in the function comments
+
+Location: `src/services/object.service.js`
+[source,javascript]
+    /**
+     * TODO Assignment
+     * Get the self link for the object from the REST resource for the object
+     * Invoke a http PATCH using the url with the data to be patched as the PATCH data
+     *      Modify the url to use the local nodejs proxy at localhost:3434
+     *      instead of directly hitting the CMS at localhost:8080
+     *      hint - use switchToProxyUrl convenience method in this class
+     * @param object
+     * @param patch
+     * @returns {*|Promise.<TResult>}
+     */
+    patchObject(object: Object, patch: Object) {
+      return this.$q.resolve(object);
+    }
+
+The following function is to update an existing object and return the response item.
+Right now it returns the same item as received.
+Details of the required implementation are in the function comments
+
+[source,javascript]
+    /**
+     * TODO Assignment
+     * Get the self link for the object from the REST resource for the object
+     * Invoke a http PUT on the same with the modified object
+     *      (object sent as the param for this method is already modified) in the PUT data
+     *      Modify the url to use the local nodejs proxy at localhost:3434
+     *      instead of directly hitting the CMS at localhost:8080
+     * @param object Modified object with the rest resource links as retrieved when fetching the object from a REST call
+     * @returns {*|Promise.<TResult>}
+     */
+    updateObjectEx(object: Object) {
+      return this.$q.resolve(object);
+    }
+
+

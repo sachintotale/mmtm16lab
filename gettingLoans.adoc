@@ -1,0 +1,55 @@
+== Assignment 6
+
+In this assignment, we're going to get the loans created in the system.
+We will also apply a filter so that loans of a particular user are only fetched
+
+=== View
+In the application, this loans in the system are fetched when the logged in user navigates to the 'Documents' View
+and clicks the 'Go' button in the card for 'Loan Documents'
+
+`src/modules/content/content.html`
+[source,html]
+<md-button ng-click="vm.showLoans()">Go</md-button>
+
+image::screenshots/loanDocsCard.png[]
+
+=== Controller
+`src/modules/content/content.controller.js` +
+In the content controller we load the loan resources in the following manner. Note that we pass across the user
+to filter by only if it's not a role of a loan officer, so that the filter is applied only for certain roles
+
+[source,javascript]
+  showLoans() {
+    var user = this.user;
+    if(this.roles.includes('loan_officer')) {
+      user = {};
+    }
+    this.contentService.fetchLoanDocuments(user).then( (items) => {
+      this.showingLoanData = true;
+      this.contentlist = items;
+    })
+  }
+
+
+=== Service
+==== Assignment:
+The following function in the content service is to fetch and return the loans. Right now it returns empty.
+Details of the required implementation are in the function comments
+
+Location: `src/services/content.service.js`
+[source,javascript]
+    /**
+     * TODO Assignment : Implement this method
+     * Fetch the loan documents in the system
+     *
+     * 1. Get the url to get files in the system - /files (this.allContentEndpoint in this file)
+     * 2. Fire an http GET to the url
+     * 3. Tweak the url to now apply a filter for the loan trait
+     * 3. Return the response data items (data._embedded.itemResourceList)
+     *
+     * @param user
+     * @returns {*|Promise.<TResult>}
+     */
+    fetchLoanDocuments(user: Object = {}) {
+        return this.$q.resolve([]);
+    }
