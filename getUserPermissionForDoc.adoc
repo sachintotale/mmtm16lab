@@ -7,6 +7,38 @@ This can be used in conjunction with the user's roles to decide if the user has 
 For example, the acl can be used along with user roles from the user token to decide if the user has
 'write' permits on an object and then disable UI based on it.
 
+=== API 
+==== Request
+[source,http]
+GET /permissions/id HTTP/1.1
+HOST: localhost:8080
+authorization: bearer eyJh...
+content-type: application/json
+
+==== Response
+[source,json]
+{
+    "name": "loanApproved",
+    "description": "Loan Approved",
+    "owner": "app_admin",
+    "roles": [{
+        "name": "loan_officer",
+        "permits": ["change_location", "browse", "annotate", "comment", "print", "read"]
+    }, {
+        "name": "loan_applicant",
+        "permits": ["read", "browse"]
+    }],
+    "users": [],
+    "tenantId": "acme",
+    "_links": {
+        "self": {
+            "href": "http://localhost:8080/permissions/idhere"
+        }
+    },
+    "id": "idhere",
+    "eTag": 0
+}
+
 === Controller
 `src/modules/contentEdit/contentEdit.controller.js` +
 In the contentEdit controller we decide if the user has edit permit on the resource in the following manner
