@@ -3,6 +3,75 @@
 In this assignment, we're going to get the loans created in the system.
 We will also apply a filter so that loans of a particular user are only fetched
 
+=== API 
+==== Request
+[source,http]
+GET /files?filter=traits.loan.id is not null HTTP/1.1
+HOST: localhost:8080
+authorization: bearer eyJh...
+content-type: application/json
+
+==== Response
+[source,json]
+{
+    "_embedded": {
+        "itemResourceList": [{
+            "id": "6CLDBvf5BSddBojFslYZsf",
+            "createTime": "2016-10-24T16:59:35.658+0000",
+            "updateTime": "2016-10-24T17:55:23.657+0000",
+            "createdBy": "bob@acme.com",
+            "updatedBy": "bob@acme.com",
+            "owner": "bob@acme.com",
+            "etag": 4,
+            "name": "Bob loan doc",
+            "description": "Bob loan doc desc",
+            "type": "file",
+            "parentFolder": "9enlwyQo4UYfZkRfjWWniP",
+            "acl": "92zAAs...",
+            "chronicleId": null,
+            "versionNo": 0,
+            "versionLabel": ["INITIAL"],
+            "lockOwner": null,
+            "lockTime": null,
+            "tags": null,
+            "traits": {
+                "loan": {
+                    "loantrait": {
+                        "zipcode": "34566",
+                        "itemId": "6CLDBvf5BSddBojFslYZsf",
+                        "firstname": "Bob",
+                        "loanTerm": 18,
+                        "city": "Bob city",
+                        "addressLine1": "Bob address",
+                        "addressLine2": "Bob ad",
+                        "id": "lgl4N5G4xAqixynH4I4jMR",
+                        "state": "Bob state",
+                        "loanAmount": 18000.0,
+                        "lastname": "Z"
+                    }
+                }
+            },
+            "renditions": [],
+            "_links": {
+                "self": {
+                    "href": "http://localhost:8080/files/6CLDBvf5BSddBojFslYZsf"
+                }
+            }
+        }]
+    },
+    "_links": {
+        "self": {
+            "href": "http://localhost:8080/files?filter=traits.loan.id%20is%20not%20null%20and%20owner%20=%20%27bob@acme.com%27"
+        },
+        "next": {
+            "href": "http://localhost:8080/files?filter=traits.loan.id%20is%20not%20null%20and%20owner%20=%20%27bob@acme.com%27&page=2&items-per-page=10"
+        },
+        "last": {
+            "href": "http://localhost:8080/files?filter=traits.loan.id%20is%20not%20null%20and%20owner%20=%20%27bob@acme.com%27&page=3&items-per-page=10"
+        }
+    }
+}
+
 === View
 In the application, this loans in the system are fetched when the logged in user navigates to the 'Documents' View
 and clicks the 'Go' button in the card for 'Loan Documents'
