@@ -4,22 +4,22 @@ In this assignment, we're going to get the root folder resource.
 This is the top level folder which is created by default in the system.
 
 === API 
-===== Request
+==== Request
 [source,http]
-GET /folders HTTP/1.1
+GET /folders?filter=parentFolder is null HTTP/1.1
 HOST: localhost:8080
 authorization: bearer eyJh...
 content-type: application/json
 
-===== Response
+==== Response
 [source,json]
 {
   "_embedded": {
     "itemResourceList": [
       {
         "id": "0",
-        "createTime": "2016-10-24T06:05:25.832+0000",
-        "updateTime": "2016-10-24T06:05:25.832+0000",
+        "createTime": "2016-10-11T08:23:58.384+0000",
+        "updateTime": "2016-10-11T08:23:58.384+0000",
         "createdBy": "owner",
         "updatedBy": "owner",
         "owner": "owner",
@@ -30,7 +30,7 @@ content-type: application/json
         "parentFolder": null,
         "acl": "0",
         "tags": null,
-        "traits": null,
+        "traits": {},
         "_links": {
           "self": {
             "href": "http://localhost:8080/folders/0"
@@ -44,7 +44,13 @@ content-type: application/json
   },
   "_links": {
     "self": {
-      "href": "http://localhost:8080/folders"
+      "href": "http://localhost:8080/folders?filter=parentFolder%20is%20null"
+    },
+    "next": {
+      "href": "http://localhost:8080/folders?filter=parentFolder%20is%20null&page=2&items-per-page=10"
+    },
+    "last": {
+      "href": "http://localhost:8080/folders?filter=parentFolder%20is%20null&page=3&items-per-page=10"
     }
   }
 }
