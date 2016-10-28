@@ -4,20 +4,68 @@ Get the loan application acl - to be used later when creating the loan content.
 
 Get the acl by name 'loanApplication'.
 Modify the js code to get the permission resource using the loan name as a parameter
-like so /permissions/?name=loanApplication +
-and use the id from this instead of the hardcoded acl when defining `newContent`
+
+=== API 
+==== Request
+[source,http]
+GET /permissions/?name=loanApplication HTTP/1.1
+HOST: localhost:8080
+authorization: bearer eyJh...
+content-type: application/json
+
+==== Response
+[source,json]
+{
+  "name": "loanApplication",
+  "description": "Loan Application",
+  "owner": "app_admin",
+  "roles": [
+    {
+      "name": "loan_officer",
+      "permits": [
+        "annotate",
+        "print",
+        "browse",
+        "change_location",
+        "write",
+        "read",
+        "comment"
+      ]
+    },
+    {
+      "name": "loan_applicant",
+      "permits": [
+        "read",
+        "write",
+        "version",
+        "browse",
+        "comment",
+        "delete"
+      ]
+    }
+  ],
+  "users": [],
+  "tenantId": "acme",
+  "_links": {
+    "self": {
+      "href": "http://localhost:8080/permissions/7qbMXBVtNhziNOW9Mdjj2d"
+    }
+  },
+  "id": "7qbMXBVtNhziNOW9Mdjj2d",
+  "eTag": 55
+}
 
 == Controller
 `src/modules/import/import.controller.js` +
-In the import controller there is a hard-coded value for the ack is as shown in the code below.
-The exercise is to update this acl id as fetched from the permissions resource.
+In the import controller there is an acl property as shown in the code below.
+This is later updated using the permissions resource fetched using the object service.
 
 [source,javascript]
 this.newContent = {
     name : '',
     description : '',
     type: 'file',
-    acl: 'xxxxxxxxx', //Fix this
+    acl: 'xxxxxxxxx', 
     "versionLabel": [
         "INITIAL"
     ],
@@ -25,12 +73,10 @@ this.newContent = {
     "renditions": []
 };
 
+The objectService.fetchPermission is used as shown below to update the acl property after having
+feched the permission resource.
 
-=== Resolution
-The objectService.fetchPermission method can be used to fetch the same.
-Modify the constructor to get the ObjectService injected.
-Use the same to fetch the permission info and set it on the newContent
-
+`src/modules/import/import.controller.js` + 
 [source,javascript]
     constructor (folder, ContentService, FolderService, ObjectService, $mdDialog){
         this.folder = folder;
@@ -48,3 +94,27 @@ Use the same to fetch the permission info and set it on the newContent
             }
         );
     }
+
+=== Service
+==== Assignment:
+The following function is to fetch and return the result of the data fetch operation to retrieve 
+the permission by name of the acl.
+Right now it returns empty.
+Details of the required implementation are in the function comments as seen below
+Location: `src/services/object.service.js`    
+[source,javascript]
+    /**
+     * TODO Assignment
+     * For the given acl name get the corresponding permissions resource
+     *     using a filter when requesting for permissions in the system
+     *
+     * Use the /permissions REST api and apply a filter by name
+     *      ?name=xxx
+     * Return the resource as promised
+     * @param aclname
+     * @returns {*|Promise.<TResult>}
+     */
+    fetchPermission(aclname: string) {
+      return this.$q.resolve({});
+    }
+
