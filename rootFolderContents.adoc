@@ -2,6 +2,48 @@
 
 In this assignment, we're going to get the contents(items) of the root folder resource.
 
+=== API 
+==== Request
+[source,http]
+GET /folders/0/items HTTP/1.1
+HOST: localhost:8080
+authorization: bearer eyJh...
+content-type: application/json
+
+==== Response
+[source,json]
+{
+  "_embedded": {
+    "itemResourceList": [
+      {
+        "id": "9eN5yPVFfRPh8mWXphYh2x",
+        "createTime": "2016-10-11T08:23:58.384+0000",
+        "updateTime": "2016-10-11T08:23:58.384+0000",
+        "createdBy": "owner",
+        "updatedBy": "owner",
+        "owner": "owner",
+        "etag": 0,
+        "name": "Loan applications",
+        "description": "Loan applications",
+        "type": "folder",
+        "parentFolder": null,
+        "acl": "0",
+        "tags": null,
+        "traits": {},
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/folders/9eN5yPVFfRPh8mWXphYh2x"
+          },
+          "items": {
+            "href": "http://localhost:8080/folders/9eN5yPVFfRPh8mWXphYh2x/items"
+          }
+        }
+      }
+    ]
+  }
+}
+
+
 === View
 In the application, this root folder contents are fetched when the logged in user navigates to the 'Documents' View
 and clicks the 'Go' button in the card for 'Home'
