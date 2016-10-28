@@ -5,6 +5,170 @@ Review and save loan Content
 In this assignment, we're going to save a loan content. This exercise will allow to complete the
 use case of loan content review and approval from the loan edit dialog.
 
+=== API 
+==== Request 1 - patch loanreviewstatus trait
+[source,http]
+PATCH /files/idHere HTTP/1.1
+HOST: localhost:8080
+authorization: bearer eyJh...
+content-type: application/json
+
+===== Request payload
+[source,json]
+{
+    "traits": {
+        "loanreviewstatus": {
+            "statustrait": {
+                "reviewer": "joe@acme.com",
+                "isApproved": true,
+                "remarks": "Joe D approves"
+            }
+        }
+    }
+}
+
+==== Response
+[source,json]
+{
+    "id": "idHere",
+    "createTime": "2016-10-24T16:57:07.818+0000",
+    "updateTime": "2016-10-28T10:08:49.615+0000",
+    "createdBy": "bob@acme.com",
+    "updatedBy": "joe@acme.com",
+    "owner": "bob@acme.com",
+    "etag": 1,
+    "name": "bob home loan",
+    "description": "bob loan desc",
+    "type": "file",
+    "parentFolder": "2VI7b2LwwegczBzmU4kxQY",
+    "acl": "7qbMXBVtNhziNOW9Mdjj2d",
+    "chronicleId": null,
+    "versionNo": 0,
+    "versionLabel": ["INITIAL"],
+    "lockOwner": null,
+    "lockTime": null,
+    "tags": null,
+    "traits": {
+        "loan": {
+            "loantrait": {
+                "zipcode": "23424",
+                "itemId": "idHere",
+                "firstname": "bob",
+                "loanTerm": 17,
+                "city": "bob city",
+                "addressLine1": "bob add",
+                "addressLine2": "bob add 2",
+                "id": "1kzXIHwoCKdjafctBlXkyy",
+                "state": "bob state",
+                "loanAmount": 17000.0,
+                "lastname": "Z"
+            }
+        },
+        "loanreviewstatus": {
+            "statustrait": {
+                "itemId": "idHere",
+                "reviewer": "joe@acme.com",
+                "id": "8PoC66bKqiEdWQYxAiAnCj",
+                "isApproved": true,
+                "remarks": "Joe D approves"
+            }
+        }
+    },
+    "renditions": [{
+        "id": "9Vt8BeNq3yYg80snG3Weyy",
+        "name": "Primary version",
+        "mimeType": "image/png",
+        "contentSize": 426,
+        "blobId": "cms%3A1%23489e2127-d7ca-z...",
+        "downloadUrl": "https://contentservice.saas-de.leapapps.com/content/cms%3A1%23489e2127-d7ca.../download",
+        "renditionType": "PRIMARY"
+    }],
+    "_links": {
+        "self": {
+            "href": "http://localhost:8080/files/idHere"
+        }
+    }
+}
+
+=== Request 2 - Update acl of loan content to loanApproved 
+[source,http]
+PUT /files/idHere HTTP/1.1
+HOST: localhost:8080
+authorization: bearer eyJh...
+content-type: application/json
+
+==== Request payload
+[source,json]
+{
+    "id": "idHere",
+    ... same as response of Request 1 except modified acl id,
+    "acl": "loanApproved_Acl_id_here"
+}
+
+==== Response
+[source,json]
+{
+    "id": "idHere",
+    "createTime": "2016-10-24T16:57:07.818+0000",
+    "updateTime": "2016-10-28T10:08:51.952+0000",
+    "createdBy": "sue@acme.com",
+    "updatedBy": "joe@acme.com",
+    "owner": "sue@acme.com",
+    "etag": 3,
+    "name": "Sue home loan",
+    "description": "Sue loan desc",
+    "type": "file",
+    "parentFolder": "2VI7b2LwwegczBzmU4kxQY",
+    "acl": "loanApproved_Acl_id_applied",
+    "chronicleId": null,
+    "versionNo": 0,
+    "versionLabel": ["INITIAL"],
+    "lockOwner": null,
+    "lockTime": null,
+    "tags": null,
+    "traits": {
+        "loan": {
+            "loantrait": {
+                "zipcode": "23424",
+                "itemId": "idHere",
+                "firstname": "Sue",
+                "loanTerm": 17,
+                "city": "Sue city",
+                "addressLine1": "Sue add",
+                "addressLine2": "Sue add 2",
+                "id": "1kzXIHwoCKdjafctBlXkyy",
+                "state": "Sue state",
+                "loanAmount": 17000.0,
+                "lastname": "Z"
+            }
+        },
+        "loanreviewstatus": {
+            "statustrait": {
+                "itemId": "idHere",
+                "reviewDate": null,
+                "id": "8PoC66bKqiEdWQYxAiAnCj",
+                "reviewer": "joe@acme.com",
+                "isApproved": true,
+                "remarks": "Joe D approves"
+            }
+        }
+    },
+    "renditions": [{
+        "id": "9Vt8BeNq3yYg80snG3Weyy",
+        "name": "Primary version",
+        "mimeType": "image/png",
+        "contentSize": 426,
+        "blobId": "cms%3A1%23489e2127-d7ca-4e0a-a599-d6d3594b59d1",
+        "downloadUrl": "https://contentservice.saas-de.leapapps.com/content/cms%3A1%23489e2127-d7ca.../download",
+        "renditionType": "PRIMARY"
+    }],
+    "_links": {
+        "self": {
+            "href": "http://localhost:8080/files/idHere"
+        }
+    }
+}
+
 === View
 In the application, the dialog to edit loan content is shown when the logged in user clicks on the context menu option
 for 'Edit Loan Content' displayed on right-click of a loan document
