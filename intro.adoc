@@ -3,53 +3,66 @@
 Welcome to the lab session on the LEAP platform APIs.
   We'll touch upon the functionality of the application we're going to tweak and highlight the technology used.
 
-=== Application
-The application we have with us deals with a loan application use case. Loan applicants can upload a loan document
-entering details about the loan and send it for approval. A loan officer can then log into the system and review the
-loan created and choose to approve the document providing comments for the same. Once the document is approved it is
-then read-only meaning the users cannot edit the document thereon.
+=== Key Concepts
 
-Users log into the system using the log in button.
+* Folder - Container for sub-folders and files
+** Root Folder - Top-level folder per tenant
+* File - Document with content
+* Object - Content-less objects
+* Trait - Custom dynamic metadata
+* ACL - Permissions granted to users and roles
+
+=== Pre-defined Roles and Users
+
+* Loan Applicant - Person applying for a loan
+** Bob - token: `eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb250ZXh0Ijp7InVzZXIiOnsiaWQiOiIxIiwiZW1haWwiOiJib2JAYWNtZS5jb20iLCJmaXJzdE5hbWUiOiJCb2IiLCJsYXN0TmFtZSI6Ik9kZW5raXJrIiwicGhvbmUiOm51bGx9LCJzdWJzY3JpcHRpb25zIjpbeyJpZCI6IjEiLCJuYW1lIjoiYWNtZS1jbXMiLCJyb2xlcyI6WyJsb2FuX2FwcGxpY2FudCJdLCJza3VzIjpbeyJpZCI6IjEiLCJuYW1lIjoiVHJhaWwiLCJwYXJhbXMiOnsiRG9jdW1lbnQgQ291bnQiOiIxMDAwIn19XSwidGVuYW50Ijp7ImlkIjoiYWNtZSIsIm5hbWUiOm51bGx9LCJhcHBsaWNhdGlvbiI6eyJpZCI6ImNtcyIsIm5hbWUiOiJjbXMifX1dfSwiY2xpZW50X2lkIjoic2NvdHQiLCJleHAiOjE0Nzk2NDE5MDU4OTgsImp0aSI6IjFpbDFmcjZ0dXV3bHRRaE83UjVJZXciLCJzY29wZSI6WyJyZWFkIl0sImF1dGhvcml0aWVzIjpbXX0.cTIr8eyBelCKq10oCE9jBFoOI6WITLpRXsnwYDSOKkZ5JLFPyFklNAbY0BjRNvy1nxk6uIblFajM1ILFCy4yZg6XCOLhch9_LS5qivESgYK3HxyyrBpoxwMB7875Hs-Aci0JnNQpUCnMaUhVdUDhD2Q8PYaoghHKPJqm2oGLo_Gh48bg2UIBbpDr5blfp7EynlvP-ArOB1ZrCs2kdJQ4gmGQrYSKgGZV3HCUN19aVd_OyIgnqfD_bp9K1JyYUbYMj51WwzUhi9koU_c9jlpc9pDv3Ctx8RI2vqV9Iop4ka4hCBhZ7idYKYfdn_1FYyrZWevq321JfRvwPXf9WiGWVg`
+* Loan Officer - Employee at the bank
+** Joe - token: `eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb250ZXh0Ijp7InVzZXIiOnsiaWQiOiIxIiwiZW1haWwiOiJqb2VAYWNtZS5jb20iLCJmaXJzdE5hbWUiOiJKb2UiLCJsYXN0TmFtZSI6IkhhcnQiLCJwaG9uZSI6bnVsbH0sInN1YnNjcmlwdGlvbnMiOlt7ImlkIjoiMSIsIm5hbWUiOiJhY21lLWNtcyIsInJvbGVzIjpbImxvYW5fb2ZmaWNlciJdLCJza3VzIjpbeyJpZCI6IjEiLCJuYW1lIjoiVHJhaWwiLCJwYXJhbXMiOnsiRG9jdW1lbnQgQ291bnQiOiIxMDAwIn19XSwidGVuYW50Ijp7ImlkIjoiYWNtZSIsIm5hbWUiOm51bGx9LCJhcHBsaWNhdGlvbiI6eyJpZCI6ImNtcyIsIm5hbWUiOiJjbXMifX1dfSwiY2xpZW50X2lkIjoic2NvdHQiLCJleHAiOjE0Nzk2NDIwMzMyNDksImp0aSI6IjB1ZDJXRmRFNWFsYkx3WjZONzM2aUsiLCJzY29wZSI6WyJyZWFkIl0sImF1dGhvcml0aWVzIjpbXX0.KRUCkofJkxPHYWztgItmpe6U4txvofiAsbSGZlVy3r2E0ogkPW-BFCaUMypqwKWXF9H2sxp0ysQ8Q_wFOa0PzupTW551UnqXJi-O2bGhzpR2Eqm8-UbDlo__JfMHY8cBzc2nctXQ2tCNdbyMOhTKfBtFAi0xIJbeIMdGAWNTusiBvGovPjB9baycgdtWJfR8LwzBkbF8L9q1R8zeQyJLLJzHij2HmIFRo_nQgRTo3XQliY2tQXL664sqLmswZiTr_Sh0ZcMTAaQtnJ2R9aMy4DkIIwyvGdE5v2X8nYIo1orYEkLRNLsn50EoWuNG4T0mKwF8O_MmD13jqf6TJsOQBQ`
+
+=== Application
+The application we have with us deals with a loan application use case. A Loan Applicant can upload a loan document
+entering details about the loan and submit it for approval. A Loan Officer can then log into the system, review the
+loan created by the Applicant, and choose to whether or not to approve the document, with the optional step of providing comments if necessary. Once the document is approved, it will then be set to 'read-only' mode, meaning the users can no longer edit the document.
+
+Users log into the system using the "Log In" button.
 
 image::screenshots/login.png[]
 
-Once logged in, the user sees his profile page.
+Once logged in, the user will see his profile page.
 This profile page displays the user's information including the roles he has in the system.
 
 image::screenshots/profile.png[]
 
 The 'Documents' option in the side navigation panel allows the user to navigate to the main functionality panel.
-The user is provided with options to view loan documents in the system (Loans) or browse the repository (Home)
+The user is provided with options to view loan documents in the system (Loans) or browse the repository (Home).
 
 image::screenshots/loans.png[]
 
 The user can click on the 'Home' option to display folders in the system under the root directory of the system
-A user with the role of 'loan applicant' (Bob and Sue) can then right-click on a listed folder to see options to 'Create Loan Content'
+Bob, the Loan Applicant, can then right-click on a listed folder to see the option to 'Create Loan Content'.
 
-The user is then provided a dialog to import a loan document (blob service)
-and provide required loan content info (a trait in the system that is attached to the loan content file)
+The user is then shown a dialog to import a loan document and provide the required loan content info (a trait in the system that is attached to the loan content file)
 
 image::screenshots/createLoan.png[]
 
 
-Once a user with the role of a 'loan officer' (Joe) logs into the application
-and navigates to 'Documents' using the navigation panel,
-the user is presented with the loans created by other loan applicants.
+Once Joe, the Loan Officer, logs into the application,
+he can navigate to 'Documents' using the navigation panel,
+he will then be presented with the loans created by Loan Applicants.
 Context menu options are provided to 'Edit' (review) the loan application.
-Once approved by the loan officer (loan review status trait applied and related info provided)
-the loan is applied made read-only by the system (a permission set is applied on the loan).
+Once approved by the Loan Officer, the loan will become read-only. This is achieved by changing the 'Loan Review Status' trait attached to the document, where an ACL is set to make the document "read-only" if it is "approved".
 
 image::screenshots/loanApproval.png[]
 
 
 === Virtual Machine
 
-The Virtual that we host will contain all necessary to buid the application
+The Virtual Machine that is hosted will contain all the necessary parts to buid the application
 
 This includes the following:
 
-* LEAP CMS running
-** Can be run by executing the run.bat file located at C:\mmtm\cms_informed_2
+* LEAP CMS
+** Can be started by executing the run.bat file located at C:\mmtm\cms_informed_2
 * The web application that will be the base for the lab session consisting of the following technologies
 ** Node.js
 ** npm
