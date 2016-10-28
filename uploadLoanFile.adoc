@@ -7,6 +7,47 @@ like id, content type, size and an accessible url.
 This info can then be used to attach the blob to a 'file' type in CMS
 (we'll handle that in the next assignments).
 
+=== API 
+==== Request
+[source,http]
+POST /content HTTP/1.1
+HOST: contentservice.saas-de.leapapps.com
+authorization: bearer eyJh...
+content-type: multipart/form-data
+
+==== Response
+[source,json]
+{
+    "id": 1477644364103,
+    "title": "/content",
+    "updated": "28 Oct 2016 08:46:04 GMT",
+    "author": "Blob Service",
+    "entries": [{
+        "id": "cms%3A1%2346a302f1-36bf-...",
+        "updated": "28 Oct 2016 08:46:04 GMT",
+        "content": {
+            "links": [{
+                "rel": "self",
+                "href": "https://contentservice.saas-de.leapapps.com/content/cms%3A1%2346a302f1-36bf-..."
+            }, {
+                "rel": "related",
+                "href": "https://contentservice.saas-de.leapapps.com/content/cms%3A1%2346a302f1-36bf-.../related"
+            }],
+            "properties": {
+                "uri": "cms%3A1%2346a302f1-36bf-...",
+                "size": 42446,
+                "fileName": "Barcelona.png",
+                "contentType": "image/png",
+                "downloadLink": null,
+                "publicAccessUrl": null,
+                "serializedProperties": "",
+                "uriDecoded": "cms:1#46a302f1-36bf-...",
+                "rawUri": "cms:1#46a302f1-36bf-..."
+            }
+        }
+    }]
+}
+
 === View
 In the application, the dialog to create loan content is shows when the logged in user clicks on the context menu option
 for 'Create Loan Content' displayed on right-click of a folder.
