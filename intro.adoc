@@ -110,26 +110,48 @@ Application organisation rules:
 
 1. Split app into angular "modules"
  * every module has its own folder, and is defined in one file which will require all module components and will export module name
-3. Every file should have only one entity inside it, for example if there is directive which has controller and template - there should be three files, plus likely two for unit tests
-4. Grouped related resources by folders
-5. Named files with suffixes `.directive`, `.controller`, `.component`, `.factory`, `.service`, `.provider`, etc.
+2. Every file should have only one entity inside it, for example if there is directive which has controller and template - there should be three files, plus likely two for unit tests
+3. Grouped related resources by folders
+4. Named files with suffixes `.directive`, `.controller`, `.component`, `.factory`, `.service`, `.provider`, etc.
 
 === Running the application
 The application can be run by executing the following commands
 
-1. Run CMS
- * executing the run.bat file located at C:\mmtm\cms_informed_2
-2. Run web application
- * Execute the following command at the console from the location C:\mmtm\mmtm-client
- to run the build and watch for changes
- ** npm run build
- * Execute the following command at the console from the location C:\mmtm\mmtm-client
- to run the nodejs server that hosts the application (and also reload when changes occur - nodemon)
- ** nodemon app.js
+1. Running CMS
+ * execute the run.bat file by a double-click on the file located at C:\mmtm\cms_informed_2
+2. Running the web application for the assignments
+ * Execute the following commands to run the build and watch for changes (to ensure that no re-run is required to the server after modifying the javascript files as part of the assignments)
+ ** Open a new command prompt window using the icon in the taskbar for the same (a right-click on the icon shows an option to launch a new Command Prompt window)
+ ** Enter and run the following command to navigate to the web application folder
+ *** `cd C:\mmtm\mmtm-client`
+ ** Enter and run the following command to
+ *** `npm run build`
+ * Execute the following commands in another command prompt window to run the nodejs server that hosts the application (and also reload when changes occur - nodemon)
+ ** Open a new command prompt window using the icon in the taskbar for the same (a right-click on the icon shows an option to launch a new Command Prompt window)
+ ** Enter and run the following command to navigate to the web application folder
+ *** `cd C:\mmtm\mmtm-client`
+ ** Enter and run the following command to serve the application
+ *** `nodemon app.js`
+3. Open the Chrome browser to load the application at http://localhost:3434
+ * Log in as a loan applicant with the user name 'bob' and password 'x' 
+ * Log in as a loan officer with the user name 'joe' and password 'x'
+ 
+=== Previewing the completed web application
+==== Running the completed web application
+ * Execute the following commands in a new command prompt window to run the nodejs server that hosts the application (and also reload when changes occur - nodemon)
+ ** Open a new command prompt window using the icon in the taskbar for the same (a right-click on the icon shows an option to launch a new Command Prompt window)
+ ** Enter and run the following command to navigate to the web application folder
+ *** `cd C:\mmtm\mmtm-client-completed`
+ ** Enter and run the following command to
+ *** `node app.js`
+ * Open the Chrome browser to load the application at http://localhost:3636
+ ** Log in as a loan applicant with the user name 'bob' and password 'x' 
+ ** Log in as a loan officer with the user name 'joe' and password 'x' 
 
 === Approach to session assigments
 Since this is a lab session to showcase the LEAP APIs, the views are ready for you. The assignments are geared towards
 implementing the service layer from the controllers. In case you have not been able to complete a particular round of
 coding you can catch up with the alternate implementations that are provided in the *.service.ex.js files.
 
-
+=== Lab assignments
+Assignment list  : link:rounds.adoc[Assignments]
