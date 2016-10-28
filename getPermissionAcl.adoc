@@ -4,6 +4,38 @@ Get the permission resource for the permission named 'loanApproved'
 In this assignment we perform the REST request for getting a permission resource by name.
 This will be used in Assignment 9 when a loan officer approves the loan document,
 
+=== API 
+==== Request
+[source,http]
+GET /permissions/?name=loanApproved HTTP/1.1
+HOST: localhost:8080
+authorization: bearer eyJh...
+content-type: application/json
+
+==== Response
+[source,json]
+{
+    "name": "loanApproved",
+    "description": "Loan Approved",
+    "owner": "app_admin",
+    "roles": [{
+        "name": "loan_officer",
+        "permits": ["annotate", "comment", "print", "change_location", "browse", "read"]
+    }, {
+        "name": "loan_applicant",
+        "permits": ["browse", "read"]
+    }],
+    "users": [],
+    "tenantId": "acme",
+    "_links": {
+        "self": {
+            "href": "http://localhost:8080/permissions/92zAADo6WtveilzTCj1i8O"
+        }
+    },
+    "id": "92zAADo6WtveilzTCj1i8O",
+    "eTag": 0
+}
+
 === Service
 ==== Assignment:
 The following function is to be used to get a permission resource by name and return the response item. Right now it returns empty.
