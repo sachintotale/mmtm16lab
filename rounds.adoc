@@ -1,12 +1,46 @@
 :ext-relative: adoc
 == Assignments
 
-* Assignment 1  : link:getRootFolder.{ext-relative}[Get Root Folder]
-* Assignment 2  : link:rootFolderContents.{ext-relative}[Folder Contents]
-* Assignment 3  : link:uploadLoanFile.{ext-relative}[Upload loan file]
-* Assignment 4  : link:applyingLoanTrait.{ext-relative}[Applying loan acl]
-* Assignment 5  : link:createLoanContent.{ext-relative}[Create loan content]
-* Assignment 6  : link:gettingLoans.{ext-relative}[Get loans]
-* Assignment 7  : link:getPermissionAcl.{ext-relative}[Get 'Loan approved' Permission]
-* Assignment 8  : link:getUserPermissionForDoc.{ext-relative}[Get User permission for document]
-* Assignment 9  : link:saveReviewedLoan.{ext-relative}[Save reviewed loan]
+The assignments 1 to 5 cover the application flow of  
+a loan applicant (Bob) creating a loan application. +  
+Assignments 6 through to 8 involve the approval of the loan application by the loan officer (Joe).
+
+* Assignment 1  : link:getRootFolder.{ext-relative}[Get Root Folder] + 
+ 
+ Demonstrates usage of the GET /folders (with an applied filter) to retrieve the root folder
+ 
+* Assignment 2  : link:rootFolderContents.{ext-relative}[Folder Contents] + 
+ 
+ Demonstrates usage of the GET /folders/:id/items to retrieve contents of the root folder 
+ - a pre-created 'Loans' folder
+ 
+* Assignment 3  : link:uploadLoanFile.{ext-relative}[Upload loan file] + 
+ 
+  Demonstrates usage of POST /content to the blob service to upload a file (additional info about the loan). 
+  This content resource returned is used in assignment 5 to associate with the loan object.
+ 
+* Assignment 4  : link:applyingLoanTrait.{ext-relative}[Applying loan acl] + 
+  
+  Demonstrates GET /permissions/?name=loanApplication to retrieve the acl that is to be applied 
+  on the loan content to be created in assignment 5.
+ 
+* Assignment 5  : link:createLoanContent.{ext-relative}[Create loan content] + 
+  
+  Demonstrates POST /folders/:id/items to create the loan content. The loan is created with the 
+  'loan' trait, rendition (assignemnt 3) and acl (assignment 4) associated 
+ 
+* Assignment 6  : link:gettingLoans.{ext-relative}[Get loans] + 
+  
+  Demonstrates GET /files with an applied filter to return files 
+  in the system with loan traits attached. 
+ 
+* Assignment 7  : link:getPermissionAcl.{ext-relative}[Get 'Loan approved' Permission] + 
+ 
+  Demonstrates GET /permissions/?name=loanApproved to retrieve the acl that is to be applied 
+  on the loan content when the loan officer approves the loan (assignment 8)
+ 
+* Assignment 8  : link:saveReviewedLoan.{ext-relative}[Save reviewed loan] + 
+  
+  Demonstrates PATCH /files/:id to update the loan with the trait and also deomstrates
+  PUT /files/:id to update the acl to 'loanApproved'
+  
