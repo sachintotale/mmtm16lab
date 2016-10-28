@@ -7,6 +7,68 @@ as a rendition attached and also applying the 'loanApplication' acl as well as t
 Assignment 3 helped to upload the file and get a reference to it. This exercise will allow to complete the
 loan content creation from the import dialog.
 
+=== API 
+==== Request
+[source,http]
+POST /folders/9enlwyQo4UYfZkRfjWWniP/items HTTP/1.1
+HOST: localhost:8080
+authorization: bearer eyJh...
+content-type: multipart/form-data
+
+==== Response
+[source,json]
+{
+    "id": "3T1LyF7BcUMbeMbZ2dP4Eq",
+    "createTime": "2016-10-28T08:46:29.336+0000",
+    "updateTime": "2016-10-28T08:46:29.336+0000",
+    "createdBy": "bob@acme.com",
+    "updatedBy": "bob@acme.com",
+    "owner": "bob@acme.com",
+    "etag": 0,
+    "name": "Bob loan named",
+    "description": "Bob loan described",
+    "type": "file",
+    "parentFolder": "9enlwyQo4UYfZkRfjWWniP",
+    "acl": "7qbMXBVtNhziNOW9Mdjj2d",
+    "chronicleId": null,
+    "versionNo": 0,
+    "versionLabel": ["INITIAL"],
+    "lockOwner": null,
+    "lockTime": null,
+    "tags": null,
+    "traits": {
+        "loan": {
+            "loantrait": {
+                "zipcode": "94588",
+                "itemId": "3T1LyF7BcUMbeMbZ2dP4Eq",
+                "firstname": "Bob",
+                "loanTerm": "12",
+                "city": "Barcelona",
+                "addressLine1": "Address1",
+                "addressLine2": "Address12",
+                "state": "Barcelona",
+                "id": "3LEc0IGF48Heq458yL0TSm",
+                "loanAmount": "12000",
+                "lastname": "C"
+            }
+        }
+    },
+    "renditions": [{
+        "id": "gdylPTVI5qTiyjxxUkCZoU",
+        "name": "Primary version",
+        "mimeType": "image/png",
+        "contentSize": 42446,
+        "blobId": "cms%3A1%2346a302f1-36bf-...",
+        "downloadUrl": "https://contentservice.saas-de.leapapps.com/content/cms%3A1%2346a302f1-36bf-.../download",
+        "renditionType": "PRIMARY"
+    }],
+    "_links": {
+        "self": {
+            "href": "http://localhost:8080/files/3T1LyF7BcUMbeMbZ2dP4Eq"
+        }
+    }
+}
+
 === View
 In the application, the dialog to create loan content is shown when the logged in user clicks on the context menu option
 for 'Create Loan Content' displayed on right-click of a folder
